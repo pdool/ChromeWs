@@ -66,9 +66,9 @@ public class SelfWebDriver implements Runnable {
                             level = level.substring(start,end);
 
                             Msg msg = new Msg();
-                            msg.setChatMsg(chat);
-                            msg.setUserName(name);
-                            msg.setDataId(dataId);
+                            msg.setMessage(chat);
+                            msg.setName(name);
+                            msg.setId(dataId);
                             msg.setLevel(level);
                             logger.error("", msg);
 //                            taskQueue.offer(msg);

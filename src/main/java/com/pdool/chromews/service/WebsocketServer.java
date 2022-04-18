@@ -20,7 +20,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.LinkedBlockingQueue;
 
 @Component
-@ServerEndpoint("/websocket/{roomId}")
+@ServerEndpoint("/websocket")
 public class WebsocketServer{
 
     private static Logger logger = LoggerFactory.getLogger(WebsocketServer.class);

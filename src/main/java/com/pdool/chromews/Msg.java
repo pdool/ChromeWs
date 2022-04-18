@@ -1,13 +1,21 @@
 package com.pdool.chromews;
 
 
+
+
+
 import java.util.Objects;
 
 public class Msg {
-    private String userName;
-    private String chatMsg;
-    private String dataId;
+    //  用户名
+    private String name;
+    //  聊天信息
+    private String message;
+    //  数据id
+    private String id;
+    //  聊天类型
     private String type;
+    //  玩家等级备用
     private String level;
 
     public void setType(String type) {
@@ -22,24 +30,24 @@ public class Msg {
         this.level = level;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getChatMsg() {
-        return chatMsg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setChatMsg(String chatMsg) {
-        this.chatMsg = chatMsg;
+    public void setMessage(String message) {
+        this.message = message;
 
-        if ("来了".equals(chatMsg)){
+        if ("来了".equals(message)){
             this.type = "enter";
-        }else if (chatMsg.startsWith("送出了")){
+        }else if (message.startsWith("送出了")){
             this.type = "gift";
         }else {
             this.type = "chat";
@@ -47,12 +55,12 @@ public class Msg {
 
     }
 
-    public String getDataId() {
-        return dataId;
+    public String getId() {
+        return id;
     }
 
-    public void setDataId(String dataId) {
-        this.dataId = dataId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getType() {
@@ -64,11 +72,11 @@ public class Msg {
         if (this == o) return true;
         if (!(o instanceof Msg)) return false;
         Msg msg = (Msg) o;
-        return dataId.equals(msg.dataId);
+        return id.equals(msg.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(dataId);
+        return Objects.hash(id);
     }
 }
