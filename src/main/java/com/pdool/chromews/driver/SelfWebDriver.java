@@ -9,9 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class SelfWebDriver implements Runnable {
@@ -22,6 +20,9 @@ public class SelfWebDriver implements Runnable {
     private final String chromedriverPath;
     private final WebsocketServer websocketServer;
     private Set<String> prev = new HashSet<>();
+    private Map<String,String> headMap = new HashMap<>();
+
+    ChromeDriver driver = null;
 
     public SelfWebDriver(LinkedBlockingQueue<Msg> taskQueue, String roomId, String chromedriverPath, WebsocketServer websocketServer) {
         this.taskQueue = taskQueue;
@@ -32,7 +33,8 @@ public class SelfWebDriver implements Runnable {
 
     @Override
     public void run() {
-        ChromeDriver driver = null;
+
+
         try {
             System.setProperty("webdriver.chrome.driver", chromedriverPath);
             driver = new ChromeDriver();
@@ -58,7 +60,10 @@ public class SelfWebDriver implements Runnable {
                         String level = null;
 
                         try {
-                            name = webElement.findElement(By.className("tfObciRM")).getText();
+                            System.out.println("xxxxxxxxxxx " + webElement.getText());
+                            WebElement nameEle = webElement.findElement(By.className("tfObciRM"));
+                            nameEle.click();
+                            name = nameEle.getText();
                             chat = webElement.findElement(By.className("Wz8LGswb")).getText();
                             level = webElement.findElement(By.className("H8MhR2lo")).findElement(By.tagName("img")).getAttribute("src");
                             int start = level.indexOf("level_");
@@ -83,7 +88,7 @@ public class SelfWebDriver implements Runnable {
                 } catch (Exception e) {
                     continue;
                 }
-                Thread.sleep(200);
+                Thread.sleep(50);
             }
         } catch (Exception e) {
             logger.error("", e);

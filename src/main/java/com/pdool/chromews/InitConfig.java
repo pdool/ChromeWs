@@ -12,6 +12,6 @@ public class InitConfig implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        WebsocketServer.driver = this.dirver;
+        WebsocketServer.driverPath = this.dirver;
     }
 }

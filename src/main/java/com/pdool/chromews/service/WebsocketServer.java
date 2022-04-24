@@ -5,12 +5,7 @@ import com.pdool.chromews.Msg;
 import com.pdool.chromews.driver.SelfWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -18,6 +13,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Component
 @ServerEndpoint("/websocket")
@@ -36,7 +32,8 @@ public class WebsocketServer{
     private final LinkedBlockingQueue<Msg> taskQueue = new LinkedBlockingQueue<>();
     //接收sid
     private String sid = "";
-    public static String driver;// ="D:\\software\\chromedriver_win32\\chromedriver.exe";
+    public static String driverPath;// ="D:\\software\\chromedriver_win32\\chromedriver.exe";
+
 
     /**
      * 连接建立成功调用的方法
@@ -50,7 +47,7 @@ public class WebsocketServer{
         this.sid = sid;
         try {
             sendMessage("连接成功");
-            new Thread( new SelfWebDriver(taskQueue, ChromeWsApplication.roomId,driver,this)).start();
+            new Thread( new SelfWebDriver(taskQueue, ChromeWsApplication.roomId, driverPath,this)).start();
         } catch (Exception e) {
             logger.error("websocket IO异常");
         }
