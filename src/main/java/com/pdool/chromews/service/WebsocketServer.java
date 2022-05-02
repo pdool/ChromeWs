@@ -5,6 +5,8 @@ import com.pdool.chromews.Msg;
 import com.pdool.chromews.driver.SelfWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -17,7 +19,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Component
 @ServerEndpoint("/websocket")
-public class WebsocketServer{
+public class WebsocketServer implements ApplicationRunner {
 
     private static Logger logger = LoggerFactory.getLogger(WebsocketServer.class);
 
@@ -34,7 +36,10 @@ public class WebsocketServer{
     private String sid = "";
     public static String driverPath;// ="D:\\software\\chromedriver_win32\\chromedriver.exe";
 
-
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        new Thread( new SelfWebDriver(taskQueue, ChromeWsApplication.roomId, driverPath,this)).start();
+    }
     /**
      * 连接建立成功调用的方法
      */
@@ -47,7 +52,6 @@ public class WebsocketServer{
         this.sid = sid;
         try {
             sendMessage("连接成功");
-            new Thread( new SelfWebDriver(taskQueue, ChromeWsApplication.roomId, driverPath,this)).start();
         } catch (Exception e) {
             logger.error("websocket IO异常");
         }
@@ -69,7 +73,7 @@ public class WebsocketServer{
      * @param message 客户端发送过来的消息
      */
     @OnMessage
-    public void onMessage(String message, Session session) {
+    public void onMessage(String message) {
         logger.info("收到来自窗口" + sid + "的信息:" + message);
         //群发消息
         for (WebsocketServer item : webSocketSet) {
@@ -129,5 +133,6 @@ public class WebsocketServer{
     public static synchronized void subOnlineCount() {
         WebsocketServer.onlineCount--;
     }
+
 
 }

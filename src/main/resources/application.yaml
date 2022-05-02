@@ -1,4 +1,4 @@
 server:
   port: 8088
-
-driver: "D:\\software\\chromedriver_win32\\chromedriver.exe"
+roomId: 2936249061
+driver: "chromedriver.exe"

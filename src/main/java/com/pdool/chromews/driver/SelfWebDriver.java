@@ -34,7 +34,6 @@ public class SelfWebDriver implements Runnable {
     @Override
     public void run() {
 
-
         try {
             System.setProperty("webdriver.chrome.driver", chromedriverPath);
             driver = new ChromeDriver();
@@ -60,9 +59,8 @@ public class SelfWebDriver implements Runnable {
                         String level = null;
 
                         try {
-                            System.out.println("xxxxxxxxxxx " + webElement.getText());
                             WebElement nameEle = webElement.findElement(By.className("tfObciRM"));
-                            nameEle.click();
+//                            nameEle.click();
                             name = nameEle.getText();
                             chat = webElement.findElement(By.className("Wz8LGswb")).getText();
                             level = webElement.findElement(By.className("H8MhR2lo")).findElement(By.tagName("img")).getAttribute("src");
@@ -77,7 +75,7 @@ public class SelfWebDriver implements Runnable {
                             msg.setLevel(level);
                             logger.error("", msg);
 //                            taskQueue.offer(msg);
-                            this.websocketServer.sendMessage(JSON.toJSONString(msg));
+                            this.websocketServer.onMessage(JSON.toJSONString(msg));
                         } catch (Exception e) {
                             continue;
                         }
