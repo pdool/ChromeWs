@@ -75,7 +75,7 @@ public class SelfWebDriver implements Runnable {
                             msg.setLevel(level);
                             logger.error("", msg);
 //                            taskQueue.offer(msg);
-                            this.websocketServer.onMessage(JSON.toJSONString(msg));
+                            this.websocketServer.sendInfo(JSON.toJSONString(msg),null);
                         } catch (Exception e) {
                             continue;
                         }

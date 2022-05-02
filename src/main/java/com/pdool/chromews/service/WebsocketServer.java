@@ -106,7 +106,7 @@ public class WebsocketServer implements ApplicationRunner {
     /**
      * 群发自定义消息
      */
-    public static void sendInfo(String message, @PathParam("sid") String sid) throws IOException {
+    public static void sendInfo(String message, @PathParam("sid") String sid) {
         logger.info("推送消息到窗口" + sid + "，推送内容:" + message);
         for (WebsocketServer item : webSocketSet) {
             try {
